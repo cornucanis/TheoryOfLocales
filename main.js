@@ -1,3 +1,4 @@
+var lootCategories = ["Resources", "Stats", "Stressors", "Max Increase", "Exp Gain", "Other"];
 
 var localeDictionary = {};
 var encounterDictionary = {};
@@ -6,11 +7,6 @@ var skillDictionary = {};
 var statDictionary = {};
 var stressorDictionary = {};
 generateDictionaries();
-
-var lootCategories = ["Resources", "Stats", "Stressors", "Max Increase", "Exp Gain", "Other"];
-
-//temp assignments for debugging
-//var testRep = avgLootReport("eryleyot");
 
 function generateDictionaries() {
 	locales.forEach(function(item, index) {
@@ -33,7 +29,6 @@ function generateDictionaries() {
 	});
 }
 
-//5 secionts to analyze: locale result, locale loot, encounter effect, encounter result, encounter loot
 function avgLootReport(id) {
 	var locale = locales[localeDictionary[id]];
 	var avg = avgEncounterTime(locale.encs);
@@ -70,7 +65,7 @@ function completeLootReport() {
 	var report = {};
 	locales.forEach(function(locale) {
 		//console.log("Starting report for " + locale.id);
-		report[locale.id] = avgLootReport(locale.id);
+		report[titleCase(locale.name || locale.id)] = avgLootReport(locale.id);
 	});
 	return report;
 }
