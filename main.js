@@ -10,7 +10,7 @@ generateDictionaries();
 var lootCategories = ["Resources", "Stats", "Stressors", "Max Increase", "Exp Gain", "Other"];
 
 //temp assignments for debugging
-var testRep = avgLootReport("eryleyot");
+//var testRep = avgLootReport("eryleyot");
 
 function generateDictionaries() {
 	locales.forEach(function(item, index) {
@@ -37,7 +37,7 @@ function generateDictionaries() {
 function avgLootReport(id) {
 	var locale = locales[localeDictionary[id]];
 	var avg = avgEncounterTime(locale.encs);
-	var fullTime = avg * locale.length;
+	var fullTime = avg * (locale.length || 100);
 	var loopTime = avg * locale.encs.length;
 	var fullLootPool = {};
 	var loopLootPool = {};
@@ -57,13 +57,12 @@ function avgLootReport(id) {
 			}
 		}
 		//console.log("after " + enc + " the loot pool looks like:");
-		//console.log(loopLootPool);
+		//console.log($.extend({},loopLootPool));
 	});
 	divideChildren(loopLootPool, loopTime);
 	divideChildren(fullLootPool, fullTime);
 	combineObjects(loopLootPool, fullLootPool);
 	prettyNames(loopLootPool);
-	//console.log(loopLootPool);
 	return loopLootPool;
 }
 
@@ -73,7 +72,7 @@ function completeLootReport() {
 		//console.log("Starting report for " + locale.id);
 		report[locale.id] = avgLootReport(locale.id);
 	});
-	console.log(report);
+	return report;
 }
 
 
@@ -146,7 +145,7 @@ function prettyNames(obj) {
 				newName = "Player";
 			} else {
 				var skillRef = skills[skillDictionary[res.split(".")[0]]];
-				newName = skillRef.name || skillRef.id;
+				newName = (skillRef.name || skillRef.id);
 				newCategory = "Exp Gain";
 			}
 			newName += " Exp";
@@ -154,7 +153,7 @@ function prettyNames(obj) {
 			//max increase
 			var itemName = res.split(".")[0];
 			var itemRef = skills[skillDictionary[itemName]] || resources[resourceDictionary[itemName]];
-			newName = "Max " + itemRef.name || itemRef.id;
+			newName = "Max " + (itemRef.name || itemRef.id);
 			newCategory = "Max Increase";
 		} else {
 			if (resources[resourceDictionary[res]]) {
