@@ -70,7 +70,7 @@ function avgLootReport(id) {
 function completeLootReport() {
 	var report = {};
 	locales.forEach(function(locale) {
-		console.log("Starting report for " + locale.id);
+		//console.log("Starting report for " + locale.id);
 		report[locale.id] = avgLootReport(locale.id);
 	});
 	console.log(report);
@@ -142,10 +142,14 @@ function prettyNames(obj) {
 		var newCategory = "Other";
 		if (res.indexOf("exp") > -1) {
 			//exp gain
-			var skillRef = skills[skillDictionary[res.split(".")[0]]];
-			newName = skillRef.name || skillRef.id;
+			if (res.split(".")[0] == "player") {
+				newName = "Player";
+			} else {
+				var skillRef = skills[skillDictionary[res.split(".")[0]]];
+				newName = skillRef.name || skillRef.id;
+				newCategory = "Exp Gain";
+			}
 			newName += " Exp";
-			newCategory = "Exp Gain";
 		} else if (res.indexOf("max") > -1) {
 			//max increase
 			var itemName = res.split(".")[0];
@@ -170,7 +174,7 @@ function prettyNames(obj) {
 				} 
 			} else {
 				//no case found
-				console.log("no pretty name category found for " + res);
+				//console.log("no pretty name category found for " + res);
 				//console.trace();
 			}
 		}

@@ -1,4 +1,178 @@
 var encounters = [
+	// Hall of Ages Encounters
+	
+	{
+		"id":"agetablet1",
+		"name":"ancient tablet",
+		"desc":"A tablet on a dais displays a glowing list of names.",
+		"flavor":"Chazza, Jiopaba, Kamianya, Alyx, Man of Smoke",
+		"effect":{
+
+		}
+
+	},
+	{
+		"id":"agetablet2",
+		"name":"weathered tablet",
+		"desc":"A weathered tablet with a faded list of names.",
+		"flavor":"Chazza, Jiopaba, Kamianya, Alyx, Man of Smoke",
+		"effect":{
+
+		}
+	},
+
+	{
+		"id":"enc_cyril",
+		"name":"view stars with cyril",
+		"desc":"",
+		"effect":{
+			"rage":"1~5",
+			"weary":"2~5",
+			"research":1
+		},
+		"result":{
+		}
+
+	},
+	{
+		"id":"enc_kanna",
+		"name":"Study under Kanna",
+		"desc":"A fox-girl delightedly teaches you some practical ways to use your weapon more effectively",
+		"effect":{
+			"bf":"0~2",
+			"weary":"2~5",
+			"rage":"2~5",
+			"bladelore.exp":3,
+			"enchanting.exp":3
+		},
+		"result":{
+			"bladelore.max":0.001
+		}
+
+	},
+	{
+		"id":"enc_jeremy",
+		"name":"jeremi",
+		"desc":"Nothing is known about this mage.",
+		"effect":{
+			"rage":"1~5",
+			"weary":"2~5",
+			"research":1
+		},
+		"result":{
+		}
+	},
+	{
+		"id":"enc_phrenesis",
+		"name":"phrenesis",
+		"desc":"Phrenesis was forever preoccupied with the cycles of death and rebirth.",
+		"effect":{
+			"stress":-0.1,
+			"hp":-4
+		}
+
+	},
+	{
+		"id":"enc_sinae",
+		"name":"sinae",
+		"desc":"",
+		"effect":{
+			"rage":"1~5",
+			"weary":"2~5",
+			"research":1
+		}
+	},
+	{
+		"id":"enc_stags",
+		"name":"stags",
+		"desc":"Nothing is known about the enigmatic mage.",
+		"effect":{
+			"rage":"1~5",
+			"weary":"2~5",
+			"research":1
+		},
+		"result":{
+		}
+	},
+	{
+		"id":"enc_tainted",
+		"name":"Tainted, Archon of the Void",
+		"desc":"A violent echo still wanders the halls it never walked",
+		"effect":{
+			"madness":"2~4",
+			"unease":"2~4",
+			"tempus":-1,
+			"chronomancy.exp":1,
+			"voidlore.exp":1
+		},
+		"loot":{
+			"voidrune":"1%",
+			"voidgem":"1%",
+			"timerune":"1%",
+			"timegem":"1%"
+
+		}, "flavor":"Did that actually happen?"
+
+	},
+	{
+		"id":"enc_kaidi",
+		"name":"kaidi",
+		"desc":"",
+		"effect":{
+
+		},"flavor":""
+
+	},
+	{
+		"id":"enc_tjoker",
+		"name":"a joker",
+		"desc":"A crafty expression suggests trouble.",
+		"effect":{
+			"rage":"1~5",
+			"bf":"2~5",
+			"trickery.exp":2,
+			"player.exp":1
+		}
+
+	},
+	{
+		"id":"enc_vondrey",
+		"name":"vondrey",
+		"desc":"The mage does not appear inclined to speak.",
+		"effect":{
+			"bf":"1~5",
+			"rage":"1~5",
+			"weary":"2~5",
+			"concentrate.exp":1,
+			"composure.exp":1
+		}
+	},
+	{
+		"id":"enc_mrwild",
+		"name":"master wild",
+		"desc":"A mage of the wilds makes a perplexing teacher.",
+		"effect":{
+			"madness":"1~5",
+			"weary":"2~5",
+			"naturelore.exp":2,
+			"animals.exp":2
+		}
+
+	},
+	{
+		"id":"enc_mrreaper",
+		"name":"mister reaper",
+		"desc":"A grim name for an otherwise respectable mage.",
+		"effect":{
+			"madness":"1~5",
+			"bf":"2~5",
+			"history.exp":2,
+			"shadowlore.exp":2
+		}
+
+	}, 
+	
+	//Normal Encounters
 	{
 		"id":"enc_primer1",
 		"name":"magical primer",
