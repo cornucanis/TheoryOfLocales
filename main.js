@@ -125,13 +125,29 @@ function cleanFloat(input) {
 
 
 // deep copy one object onto the other, while adding together identical properties
-function combineObjects(base, newObj, multi) {
-	multi = multi || 1;
-	var objCopy = pruneSingles(newObj);
+function combineObjects(base, newObj, multi = 1, skipPrune = false) {
+	var objCopy = skipPrune ? newObj : pruneSingles(newObj);
 	Object.keys(objCopy).forEach(function(item) {
-		objCopy[item] *= multi;
 		if (base.hasOwnProperty(item)) {
-			objCopy[item] += base[item];
+			//detected that base and new object share a property. need to check whether shared property is number or object
+			//objCopy takes priority when extending so make additions to objCopy
+			switch (typeof(base[item])) {
+				case "number":
+					//console.log("normal call triggered at ");
+					//console.log(objCopy[item]);
+					objCopy[item] *= multi;
+					objCopy[item] += base[item];
+					break;
+				case "object":
+					//console.log("recursive call triggered at ");
+					//console.log($.extend({}, objCopy[item]));
+					combineObjects(objCopy[item], base[item], multi, true);
+					break;
+				default:
+					console.log("no case covered for combine objects type check. item: ");
+					console.log(item);
+					break;
+			}
 		}
 	});
 	$.extend(base, objCopy);
