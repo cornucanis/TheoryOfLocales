@@ -1,36 +1,48 @@
 var lootCategories = ["Resources", "Stats", "Stressors", "Max Increase", "Exp Gain", "Other"];
+var dataCategories = ["locales", "encounters", "resources", "skills", "stats", "stressors", "enchants"];
+var localeReports = {};
+var resourceReports = {};
 
-var localeDictionary = {};
-var encounterDictionary = {};
-var resourceDictionary = {};
-var skillDictionary = {};
-var statDictionary = {};
-var stressorDictionary = {};
 generateDictionaries();
 
-function generateDictionaries() {
-	locales.forEach(function(item, index) {
-		localeDictionary[item.id] = index;
-	});
-	encounters.forEach(function(item, index) {
-		encounterDictionary[item.id] = index;
-	});
-	resources.forEach(function(item, index) {
-		resourceDictionary[item.id] = index;
-	});
-	skills.forEach(function(item, index) {
-		skillDictionary[item.id] = index;
-	});
-	stats.forEach(function(item, index) {
-		statDictionary[item.id] = index;
-	});
-	stressors.forEach(function(item, index) {
-		stressorDictionary[item.id] = index;
+
+function nameProperties(obj) {
+	var newObj = {};
+	Object.keys(obj).forEach((i) => {
+		obj[obj[i].id] = obj[i];
+		delete obj[i];
+		//newObj[obj[i].id] = obj[i];
+		//console.log("iteration " + i + " report.. Obj:");
+		//console.log(obj);
+		//console.log("new obj: ");
+		//console.log(newObj);
 	});
 }
 
+
+// make dictionaries to look up references by name. example usage: localesDictionary["rithel"].level 
+function generateDictionaries() {
+	
+	dataCategories.forEach((categoryName) => {
+		var thisDict = window[categoryName + "Dictionary"] = {};
+		window[categoryName].forEach((itemRef) => {
+			thisDict[itemRef.id] = itemRef;
+		});
+		
+	});
+	
+}
+
+function localeReport(locale) {
+	var locRef = localesDictionary[locale];
+	var report = {};
+	//report.name = 
+	
+}
+
+//process loot for a single locale into ordered object
 function avgLootReport(id) {
-	var locale = locales[localeDictionary[id]];
+	var locale = localesDictionary[id];
 	var avg = avgEncounterTime(locale.encs);
 	var fullTime = avg * (locale.length || 100);
 	var loopTime = avg * locale.encs.length;
@@ -39,7 +51,8 @@ function avgLootReport(id) {
 	locale.result && combineObjects(fullLootPool, locale.result);
 	locale.loot && combineObjects(fullLootPool, locale.loot);
 	locale.encs.forEach(function(enc) {
-		var encRef = encounters[encounterDictionary[enc]];
+		if (!encountersDictionary[enc]) return;
+		var encRef = encountersDictionary[enc];
 		encRef.effect && combineObjects(loopLootPool, encRef.effect, (encRef.level * 5 || 5));
 		encRef.result && combineObjects(loopLootPool, encRef.result);
 		if (encRef.loot) {
@@ -61,6 +74,7 @@ function avgLootReport(id) {
 	return loopLootPool;
 }
 
+// return loot report for all available locales
 function completeLootReport() {
 	var report = {};
 	locales.forEach(function(locale) {
@@ -70,15 +84,17 @@ function completeLootReport() {
 	return report;
 }
 
-
+// determine length of average encounter based on encounter pool
 function avgEncounterTime(encs) {
 	var totalTime = 0;
-	encs.forEach(function(enc) {
-		totalTime += encounters[encounterDictionary[enc]].level * 5 || 5;
+	encs.forEach(enc => {
+		if (encountersDictionary[enc]) totalTime += encountersDictionary[enc].level * 5 || 5;
 	});
 	return totalTime / encs.length;
 }
 
+
+// remove single time rewards from the loot pool. currently covers titles and bools
 function pruneSingles(lootObject) {
 	var returnLoot = {};
 	Object.keys(lootObject).forEach(function(loot) {
@@ -89,6 +105,7 @@ function pruneSingles(lootObject) {
 	return returnLoot;
 }
 
+// parse the string provided for loot amount and output a clean float
 function cleanFloat(input) {
 	if (typeof input == "number") {
 			return input;
@@ -106,6 +123,8 @@ function cleanFloat(input) {
 	return 0;
 }
 
+
+// deep copy one object onto the other, while adding together identical properties
 function combineObjects(base, newObj, multi) {
 	multi = multi || 1;
 	var objCopy = pruneSingles(newObj);
@@ -118,12 +137,17 @@ function combineObjects(base, newObj, multi) {
 	$.extend(base, objCopy);
 }
 
-function divideChildren(objParent, divisor) {
-	Object.keys(objParent).forEach(function(item) {
-		objParent[item] /= divisor;
-	});
+function addProperty() {
+	var assignValue = arguments[arguments.length - 1];
+	
 }
 
+function divideChildren(objParent, divisor) {
+	Object.keys(objParent).forEach(i => objParent[i] /= divisor);
+}
+
+
+// makes the names of the loot a bit more readable
 function prettyNames(obj) {
 	lootCategories.forEach(function(category) {
 		obj[category] = {};
@@ -139,7 +163,7 @@ function prettyNames(obj) {
 			if (res.split(".")[0] == "player") {
 				newName = "Player";
 			} else {
-				var skillRef = skills[skillDictionary[res.split(".")[0]]];
+				var skillRef = skillsDictionary[res.split(".")[0]];
 				newName = (skillRef.name || skillRef.id);
 				newCategory = "Exp Gain";
 			}
@@ -147,24 +171,24 @@ function prettyNames(obj) {
 		} else if (res.indexOf("max") > -1) {
 			//max increase
 			var itemName = res.split(".")[0];
-			var itemRef = skills[skillDictionary[itemName]] || resources[resourceDictionary[itemName]];
+			var itemRef = skillsDictionary[itemName] || resourcesDictionary[itemName];
 			newName = "Max " + (itemRef.name || itemRef.id);
 			newCategory = "Max Increase";
 		} else {
-			if (resources[resourceDictionary[res]]) {
+			if (resourcesDictionary[res]) {
 				newCategory = "Resources";
-				if (resources[resourceDictionary[res]].hasOwnProperty("name")) {
-					newName = resources[resourceDictionary[res]].name;
+				if (resourcesDictionary[res].hasOwnProperty("name")) {
+					newName = resourcesDictionary[res].name;
 				} 
-			} else if (stats[statDictionary[res]]) {
+			} else if (statsDictionary[res]) {
 				newCategory = "Stats";
-				if (stats[statDictionary[res]].hasOwnProperty("name")) {
-					newName = stats[statDictionary[res]].name;
+				if (statsDictionary[res].hasOwnProperty("name")) {
+					newName = statsDictionary[res].name;
 				} 
-			} else if (stressors[stressorDictionary[res]]) {
+			} else if (stressorsDictionary[res]) {
 				newCategory = "Stressors";
-				if (stressors[stressorDictionary[res]].hasOwnProperty("name")) {
-					newName = stressors[stressorDictionary[res]].name;
+				if (stressorsDictionary[res].hasOwnProperty("name")) {
+					newName = stressorsDictionary[res].name;
 				} 
 			} else {
 				//no case found
@@ -234,3 +258,12 @@ Encounter done:
 
 this.player.exp += 0.75 + Math.max(t.level - this.player.level, 0)
 */
+
+
+// Create more detailed object about each locale
+// Create object to represent sources for each obtainable resource
+// Alphabetical sorting
+// Implement exp analysis
+
+
+// Front end...

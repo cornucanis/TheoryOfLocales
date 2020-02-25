@@ -30,13 +30,12 @@ var locales = [
 	},
 				
 		//Normal Locales
-		
 	{
 		"id":"mustylibrary",
 		"name":"musty library",
 		"level":1,
 		"length":15,
-		"sym":"📖",
+		"sym":"??",
 		"require":"evt_helper",
 		"desc":"a good apprentice spends all their free time in the library. after doing chores, of course.",
 		"run":{
@@ -170,7 +169,7 @@ var locales = [
 	{
 		"id":"rithel",
 		"level":14,
-		"desc":"this tiny outpost in the center of thangmor outlasted even the pillars",
+		"desc":"This tiny outpost in the center of thangmor outlasted even the pillars",
 		"require":"g.evil<=0&&g.history>=5",
 		"run":{
 			"stamina":0.2
@@ -186,6 +185,7 @@ var locales = [
 			"enc_chest2",
 			"enc_gnome",
 			"enc_primer2",
+			"enc_hettie",
 			"enc_delki",
 			"brightvista"
 		]
@@ -222,7 +222,7 @@ var locales = [
 		"level":12,
 		"require":"g.scrying>=999",
 		"length":10,
-		"sym":"📖",
+		"sym":"??",
 		"desc":"",
 		"run":{
 			"stamina":0.2
@@ -247,7 +247,7 @@ var locales = [
 		"name":"fazbit's workshop",
 		"level":9,
 		"length":50,
-		"sym":"📖",
+		"sym":"??",
 		"require":"g.alchemy>=7||g.scrying>=9",
 		"desc":"You could spend a century in Fazbit's lost workshop and still not exhaust its creations.",
 		"loot":{
@@ -272,9 +272,12 @@ var locales = [
 		"level":15,
 		"require":"g.history>=6",
 		"length":100,
-		"sym":"📖",
+		"sym":"??",
 		"desc":"An ancient library at the bridge spanning Markhul's gap.",
 		"flavor":"third of the Four Weirs of Dhrune.",
+		"result":{
+			"title":"Historian"
+		},
 		"loot":{
 			"tomes":"3~5",
 			"markhulcodex":true
@@ -289,6 +292,42 @@ var locales = [
 		]
 	},
 	{
+
+		"id":"loc_orrem",
+		"name":"sands of orrem",
+		"require":"g.history>=7&&g.scrying>=5",
+		"show":{
+			"name":"Cities of Orrem",
+			"desc":"A vision in a crystal orb reveals to you the ruins of the lost cities of Orrem."
+		},
+		"desc":"Only a small trading post marks the boundary of the lost cities of Orrem. Weathered masonry jutting from the sands beyond bespeak monuments of unimaginable proportions.",
+		"length":400,
+		"level":19,
+		"run":{
+			"stamina":3
+		},
+		"result":{
+			"title":"Nomad",
+			"fame":1
+		},"encs":[
+			"enc_aeonclock",
+			"enc_caravan",
+			"enc_oasis",
+			"desert_rains",
+			"orrem_rains",
+			"enc_madwinds",
+			"enc_orrem_cave",
+			"enc_sandstorm",
+			"enc_mirage",
+			"enc_statue4",
+			"strangebones",
+			"enc_statue2",
+			"starrysky1",
+			"enc_chest3",
+			"enc_orremtrade"
+		]
+	},
+	{
 		"id":"loc_tenwick",
 		"name":"peregrination",
 		"level":20,
@@ -300,7 +339,7 @@ var locales = [
 		},
 		"result":{
 			"title":"Dhrunic Wayfarer",
-			"tenwickstick":true,
+			"tenwickstick":1,
 			"fame":1
 		},
 		"encs":[
@@ -311,6 +350,7 @@ var locales = [
 			"enc_gibber",
 			"hauntedglade",
 			"enc_statue4",
+			"enc_gap",
 			"brightvista",
 			"enc_mtpass",
 			"hiddencache",
