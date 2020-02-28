@@ -27,6 +27,16 @@ function fixSave(save) {
 	return JSON.stringify(playerObj);
 }
 
+function paralyzeFix(save) {
+	var boxRef = $("#savedata")[0];
+	var playerObj = JSON.parse(boxRef.value);
+	if (!playerObj.items.tier0) { boxRef.value = "Must be at least T1 to unlock cure paralysis"; return; }
+	if (playerObj.items.cureparalyze && playerObj.items.cureparalyze.locked == false) { boxRef.value = "You've already unlocked cure paralysis"; return; }
+	playerObj.items.cureparalyze = {locked:false};
+	boxRef.value = "Cure paralysis unlocked!";
+	$("#fixeddata")[0].value = JSON.stringify(playerObj);
+}
+
 function generateModObject(mods) {
 	var returnObj = {};
 	Object.keys(mods).forEach(mod => {
@@ -42,8 +52,6 @@ function generateModObject(mods) {
 			}
 
 		}
-		test = $.extend({}, curObj);
-		test2 = $.extend({}, returnObj);
 		combineObjects(returnObj, curObj, 1, true);
 	});
 	return returnObj;

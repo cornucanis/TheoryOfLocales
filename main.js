@@ -5,7 +5,6 @@ var resourceReports = {};
 
 generateDictionaries();
 
-
 function nameProperties(obj) {
 	var newObj = {};
 	Object.keys(obj).forEach((i) => {
@@ -122,7 +121,6 @@ function cleanFloat(input) {
 	console.log("No case covered for cleanFloat() when provided with the " + typeof input + " known as " + input);
 	return 0;
 }
-
 
 // deep copy one object onto the other, while adding together identical properties
 function combineObjects(base, newObj, multi = 1, skipPrune = false) {

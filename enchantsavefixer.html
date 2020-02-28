@@ -5,11 +5,15 @@
 		<link rel="stylesheet" type="text/css" href="interface.css" />
 	</head>
 	<body>
+		<div id="boxes">
 		<textarea id="savedata" rows="20" cols="150" placeholder="Paste save data here"></textarea>
-		<button type="button" id="processSave" onmousedown="processTextInput()"> Fix Save! </button>
-		
 		<textarea id="fixeddata" rows="20" cols="150" ></textarea>
-		<button type="button" id="clipboardCopy" onmousedown="copyToClipboard()"> Copy to Clipboard </button>
+		</div>
+		<div id="buttons">
+		<button type="button" id="paralyzeFix" onmousedown="paralyzeFix()"> Unlock Cure Paralysis! </button> <br>
+		<button type="button" id="processSave" onmousedown="processTextInput()"> Fix Broken Enchants! </button> <br>
+		<button type="button" id="clipboardCopy" onmousedown="copyToClipboard()"> Copy to Clipboard </button> <br>
+		</div>
 		
 		
 		<script src="jquery.min.js"></script>
